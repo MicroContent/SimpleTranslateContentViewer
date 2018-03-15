@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>AbstractContentViewer</title>
+    <title>SimpleTranslateContentViewer</title>
     <script type="application/javascript">
         /** 
             dont delete! 
@@ -37,28 +37,18 @@
 
 </head>
 <body>    
-    <!-- EDIT html for card display 
-    
-    for example:
-    <div id="description"></div>
-    <div id="answers"></div>
-    <div id="contextContainer">
-        <button id="showContextHeader" class="btn btn-primary" onclick="showHideContext()"></button>
-        <p id="contextContentContainer"></p>
-    </div> 
-    -->
+
     <h1 id="title"></h1>
-    <!-- EDIT html for card display  -->
+    <div id="question"></div>
+    <div id="instructions"></div>
+    <div id="answer"><input id="answerInput" type="text" /></div>
 
-    <!-- EDIT card logic -->
     <script type="application/javascript">
-        /** 
-            function setContent() -> display content (write data from dataobject to DOM Elements)
-
-            for example:
+        function setContent(){
             document.getElementById('title').innerHTML = data.title;
-        **/
-        function setContent(){}
+            document.getElementById('question').innerHTML = data.question;
+            document.getElementById('instructions').innerHTML = data.instructions;
+        }
         
         /** 
             function getXapiObject() used to build XAPI-Object
