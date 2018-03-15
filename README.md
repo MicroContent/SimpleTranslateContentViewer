@@ -1,1 +1,1 @@
-# SimpleTranslateContentViewer
+# AbstractContentViewer
