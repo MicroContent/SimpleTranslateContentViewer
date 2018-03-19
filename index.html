@@ -42,11 +42,13 @@
     <div id="question"></div>
     <div id="instructions"></div>
     <div id="answer"><input class="form-control" id="answerInput" onkeyup="onInteraction()" type="text" /></div>
+    <div id="solution"></div>
 
     <script type="application/javascript">
         function setContent(){
             document.getElementById('question').innerHTML = data.question;
             document.getElementById('instructions').innerHTML = data.instructions;
+            document.getElementById('solution').innerHTML = window.data.answers.join(" oder ");
         }
         
         function getXapiObject(){
