@@ -47,7 +47,7 @@
 <body>    
 
     <h1 id="title" class="dontDisplayElement"></h1>
-    <div id="question" class="mdc-chip__text"></div>
+    <div id="question"></div> <br>
     <div id="answer">
         <label for="answerInput" class="bmd-label-floating" id="answerInputLabel"></label>
         <input class="form-control" id="answerInput" onkeyup="onInteraction()" type="text" /></div>
@@ -57,7 +57,20 @@
         function setContent(){
             document.getElementById('question').innerHTML = data.question;
             document.getElementById('answerInputLabel').innerHTML = data.instructions;
-            document.getElementById('solution').innerHTML = window.data.answers.join(" oder ");
+            document.getElementById('solution').innerHTML = setSolution();
+        }
+
+        function setSolution() {
+            // alert alert-dismissible alert-success
+            // window.data.answers.join(" oder ")
+            var html = "";
+            if (checkIfCurrentAnswerCorrect()) {
+                html = '<div class="alert alert-dismissible alert-success">' + document.getElementById('answerInput').value + '</div>';
+            }
+            else {
+                html = '<div class="alert alert-dismissible alert-danger">' + document.getElementById('answerInput').value + '</div>';
+            }
+            return html;
         }
         
         function getXapiObject(){
@@ -122,6 +135,7 @@
                 sendStatement(stmt);
                 
                 // set ShowingSolutionState
+                document.getElementById('solution').innerHTML = setSolution();
                 document.getElementById("answer").classList.add("dontDisplayElement");
                 document.getElementById("solution").classList.remove("dontDisplayElement");
                 isShowingSolution = true;
