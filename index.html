@@ -69,6 +69,9 @@
             }
             else {
                 html = '<div class="alert alert-dismissible alert-danger">' + document.getElementById('answerInput').value + '</div>';
+                for (var i = 0; i< window.data.answers.length; i++) {
+                    html += '<div class="alert alert-dismissible alert-success">' + window.data.answers[i] + '</div>';
+                }
             }
             return html;
         }
