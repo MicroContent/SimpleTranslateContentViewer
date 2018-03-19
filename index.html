@@ -32,6 +32,10 @@
         Source: https://fezvrasta.github.io/bootstrap-material-design/docs/4.0/getting-started/introduction/
     -->
      <style type ="text/css">
+     .dontDisplayElement {
+        display:none;
+     }
+
      </style>
     <!-- EDIT css for custom styling -->
 
@@ -43,7 +47,7 @@
     <div id="answer">
         <label for="answerInput" class="bmd-label-floating" id="answerInputLabel"></label>
         <input class="form-control" id="answerInput" onkeyup="onInteraction()" type="text" /></div>
-    <div id="solution"></div>
+    <div id="solution" class="dontDisplayElement"></div>
 
     <script type="application/javascript">
         function setContent(){
@@ -89,6 +93,8 @@
 
         function onSubmit(){
             if (isShowingSolution) {
+                document.getElementById("solution").classList.add("dontDisplayElement");
+                document.getElementById("answer").classList.remove("dontDisplayElement");
                 isShowingSolution = false;
             }
             else {
@@ -112,6 +118,8 @@
                 sendStatement(stmt);
                 
                 // set ShowingSolutionState
+                document.getElementById("answer").classList.add("dontDisplayElement");
+                document.getElementById("solution").classList.remove("dontDisplayElement");
                 isShowingSolution = true;
             }
         }
