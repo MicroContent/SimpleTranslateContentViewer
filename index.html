@@ -32,12 +32,17 @@
         Source: https://fezvrasta.github.io/bootstrap-material-design/docs/4.0/getting-started/introduction/
     -->
      <style type ="text/css">
+
      .dontDisplayElement {
         display:none;
      }
 
-     #question {
+     .true {
+         color: #4caf50;
+     }
 
+     .false {
+         color: #f44336;
      }
 
      </style>
@@ -65,12 +70,12 @@
             // window.data.answers.join(" oder ")
             var html = "";
             if (checkIfCurrentAnswerCorrect()) {
-                html = '<div class="alert alert-dismissible alert-success">' + document.getElementById('answerInput').value + '</div>';
+                html = '<div class="true">' + document.getElementById('answerInput').value + '</div>';
             }
             else {
-                html = '<div class="alert alert-dismissible alert-danger">' + document.getElementById('answerInput').value + '</div>';
+                html = '<div class="false">' + document.getElementById('answerInput').value + '</div>';
                 for (var i = 0; i< window.data.answers.length; i++) {
-                    html += '<div class="alert alert-dismissible alert-success">' + window.data.answers[i] + '</div>';
+                    html += '<div class="true">' + window.data.answers[i] + '</div>';
                 }
             }
             return html;
