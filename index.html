@@ -41,66 +41,57 @@
     <h1 id="title"></h1>
     <div id="question"></div>
     <div id="instructions"></div>
-    <div id="answer"><input id="answerInput" type="text" /></div>
+    <div id="answer"><input class="form-control" id="answerInput" onkeyup="onInteraction()" type="text" /></div>
 
     <script type="application/javascript">
         function setContent(){
-            document.getElementById('title').innerHTML = data.title;
             document.getElementById('question').innerHTML = data.question;
             document.getElementById('instructions').innerHTML = data.instructions;
         }
         
-        /** 
-            function getXapiObject() used to build XAPI-Object
-            for syntax: https://github.com/adlnet/xAPI-Spec/blob/master/xAPI-Data.md
-
-            for example:
+        function getXapiObject(){
             return {
                 "definition": {
                     "description": {
-                        "en-US": window.data.description
+                        "en-US": window.data.instructions + ": " + window.data.question
                     },
                     "type": "http://adlnet.gov/expapi/activities/cmi.interaction",
-                    "interactionType": "fill-in",
+                    "interactionType": "long-fill-in",
                     "correctResponsesPattern": 
-                        getAllCombinations(window.data.answers).map(function(e){ return e.join("[,]") }) 
-                    
+                        window.data.answers.join("[,]")
                 }
             }
-        **/
-        function getXapiObject(){}
+        }
 
-        /** 
-            function onInteraction() -> should be called (event listener) everytime user klicks, writes, moves.. something 
-            must send statement on interaction! e.g.:
+        
+        function onInteraction(){
             var stmt = {};
                 // actor is set by hosting application
-                stmt.actor = undefined;
-                stmt.verb = {
-                    "id": "http://adlnet.gov/expapi/verbs/interacted",
-                    "display": {
-                        "de-DE": "interagierte",
-                        "en-US": "interacted",
-                        "fr-FR": "a interagi",
-                        "es-ES": "interactuó"
-                    }
-                };
-                stmt.object = getXapiObject();
-                stmt.result = {
-                    response: getCurrentAnswers()
-                };
-                sendStatement(stmt);
-        **/
-        function onInteraction(){}
+            stmt.actor = undefined;
+            stmt.verb = {
+                "id": "http://adlnet.gov/expapi/verbs/interacted",
+                "display": {
+                    "de-DE": "interagierte",
+                    "en-US": "interacted",
+                    "fr-FR": "a interagi",
+                    "es-ES": "interactuó"
+                }
+            };
+            stmt.object = getXapiObject();
+            stmt.result = {
+                response: document.getElementById("answerInput").value
+            };
+            sendStatement(stmt);
+        }
 
-        /** 
-            function onSubmit() -> is called when user klicks 'submit'-Button @card
-            has 2 states: display correct answer -> submit icon changes to "revert" -> revert to original state
-            
-            Must send Statement on submit! e.g.:
-            var stmt = {};
-                // actor is set by hosting application
-                stmt.actor = undefined;
+        function onSubmit(){
+            if (isShowingSolution) {
+                isShowingSolution = false;
+            }
+            else {
+                // Build an send Statement
+                var stmt = {};
+                stmt.actor = undefined; // actor is set by hosting application
                 stmt.verb = {
                     "id": "http://adlnet.gov/expapi/verbs/answered",
                     "display": {
@@ -112,20 +103,45 @@
                 };
                 stmt.object = getXapiObject();
                 stmt.result = {
-                    response: getCurrentAnswers(),
-                    success: checkIfCurrentAnswersCorrect()
+                    response: document.getElementById("answerInput").value,
+                    success: checkIfCurrentAnswerCorrect()
                 };
                 sendStatement(stmt);
-        **/
-        function onSubmit(){}
+                
+                // set ShowingSolutionState
+                isShowingSolution = true;
+            }
+        }
+
+        function checkIfCurrentAnswerCorrect() {
+            for (var i = 0; i < window.data.answers.length; i++) {
+                if (window.data.answers[i] === document.getElementById("answerInput").value) return true;
+            }
+            return false;
+        }
         
-        /** 
-            function init() -> dont delete! used for initialization.
-        **/
         init();
+
+        var isShowingSolution = false;
 
         setContent();
         updateLayout();
+
+        /**@argument
+
+        {
+        "title": "Liebesbezeichnungen",
+        "answers": [
+            "Ich liebe SOIL",
+            "Ich mag SOIL"
+        ],
+        "question": "I love SOIL",
+        "instructions": "Übersetze den Satz von English nach Deutsch",
+        "description": "Übersetze den Satz von English nach Deutsch: \"I Love SOIL\""
+        }
+
+        **/
+
     </script>
     <!-- EDIT card logic -->
 
